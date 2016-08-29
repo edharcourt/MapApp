@@ -1,26 +1,38 @@
 package edu.stlawu.ehar.mapapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
+
+    EditText addrText = null;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText addrText =
-                (EditText) findViewById(R.id.location);
+        addrText = (EditText) findViewById(R.id.location);
 
         final Button button =
                 (Button) findViewById(R.id.mapButton);
 
+        // ACTION_VIEW display the data to the user
         button.setOnClickListener(
                 // an object that we write
                 // that implements the
@@ -32,11 +44,26 @@ public class MainActivity extends AppCompatActivity {
                         address = address.replace(' ', '+');
                         Intent geoIntent = new Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("geo:0,0?q=" + address)
+                                Uri.parse("geo:0,0?q=" + Uri.encode(address))
                         );
                         startActivity(geoIntent);
                     }
                 }
         );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
